@@ -11,9 +11,7 @@
     (syntax-case stx ()
                  [(define-cpyfunc id type)
                   #'(define-values (id) 
-                                   (values (get-cpyfunc (symbol->string (quote id))
-                                                        type)))
-                           ]))
+                                   (values (get-cpyfunc (symbol->string (quote id)) type))) ]))
 
     (define (get-cpyfunc name type)
       (lambda args
