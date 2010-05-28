@@ -1,4 +1,4 @@
-(module pyscheme scheme
+(module c scheme
   (require scheme/foreign)
   (unsafe!)
 
