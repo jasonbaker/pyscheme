@@ -32,6 +32,9 @@
          (pyimport- p)
          (pyimport q ...))]))
 
-  (provide pyimport pyimport- define-from-mod-attrs)
+  (define (getattr pyobj sym-name)
+    (PyObject_GetAttrString pyobj (symbol->string sym-name)))
+
+  (provide pyimport pyimport- define-from-mod-attrs getattr init)
 )
   
