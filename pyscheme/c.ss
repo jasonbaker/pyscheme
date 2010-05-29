@@ -21,9 +21,16 @@
           (error "Call init before using any Python C functions"))))
 
   (define pyobj%
-    (class object%
+    (class* object% (printable<%>)
       (init-field ptr)
-      (super-new)))
+      (super-new)
+
+      (define/public (__repr__)
+        (PyString_AsString (PyObject_Repr ptr)))
+      (define/public (custom-display port)
+        (display (__repr__) port))
+      (define/public (custom-write port)
+        (write (__repr__) port))))
   
   (define (get-ptr pyobj)
     (get-field ptr pyobj))
@@ -47,6 +54,7 @@
   (define-cpyfunc PyImport_ImportModule(_fun _string -> _pyobject))
   (define-cpyfunc PyObject_GetAttr (_fun _pyobject _pyobject -> _pyobject))
   (define-cpyfunc PyObject_GetAttrString (_fun _pyobject _string -> _pyobject))
+  (define-cpyfunc PyObject_Repr (_fun _rpyobject -> _pyobject))
 
   ;; Ref counting
   (define-cpyfunc Py_IncRef (_fun _rpyobject -> _void))
