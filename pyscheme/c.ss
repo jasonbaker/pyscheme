@@ -28,7 +28,7 @@
   (define (get-ptr pyobj)
     (get-field ptr pyobj))
   
-  ;; Raw PyObject, doesn't get finalized.  May also be used for borrowed objects
+  ;; Raw PyObject, doesn't get finalized.  May also be used for non-borrowed objects
   (define _rpyobject (_cpointer 'pyobject))
   (define _pyobject
     (make-ctype _rpyobject
