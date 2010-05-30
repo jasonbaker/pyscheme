@@ -27,6 +27,8 @@
 
       (define/public (__repr__)
         (PyString_AsString (PyObject_Repr ptr)))
+      (define/public (__str__)
+        (PyString_AsString (PyObject_Str ptr)))
       (define/public (custom-display port)
         (display (__repr__) port))
       (define/public (custom-write port)
@@ -52,9 +54,14 @@
   (define-cpyfunc PyString_AsString(_fun _pyobject -> _string))
   (define-cpyfunc PyImport_Import(_fun _pyobject -> _pyobject))
   (define-cpyfunc PyImport_ImportModule(_fun _string -> _pyobject))
+
+  (define-cpyfunc PyInt_FromLong(_fun _long -> _pyobject))
+
+  (define-cpyfunc PyFloat_FromDouble(_fun _double* -> _pyobject))
   (define-cpyfunc PyObject_GetAttr (_fun _pyobject _pyobject -> _pyobject))
   (define-cpyfunc PyObject_GetAttrString (_fun _pyobject _string -> _pyobject))
   (define-cpyfunc PyObject_Repr (_fun _rpyobject -> _pyobject))
+  (define-cpyfunc PyObject_Str (_fun _rpyobject -> _pyobject))
 
   ;; Ref counting
   (define-cpyfunc Py_IncRef (_fun _rpyobject -> _void))
