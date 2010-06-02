@@ -1,0 +1,12 @@
+#pyscheme
+
+Using pyscheme is fairly simple.  It presently can access the Python C API and
+also allows some higher-level functionality, but is still very primitive.
+Here's an example of how to use it though:
+
+    > (require pyscheme/py)
+    > (init "libpython2.6")
+    > (pyimport os)
+    > os
+    "<module 'os' from '/home/jason/.virtualenvs/main/lib/python2.6/os.pyc'>"
+
