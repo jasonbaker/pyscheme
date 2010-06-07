@@ -1,12 +1,19 @@
 (module c scheme
   (require scheme/foreign)
+  (require scheme/promise)
   (unsafe!)
 
-  (define libpython #f)
+  (define *libpython-path* "libpython")
 
-  (define (init [lib "libpython"])
-    (set! libpython (ffi-lib lib))
-    (Py_Initialize))
+  (define libpython
+    (delay 
+      (ffi-lib *libpython-path*)))
+  
+  (define (set-libpython-path! path)
+    (set! *libpython-path* path))
+
+  (define (get-libpython)
+    (force libpython))
 
   (define-syntax (define-cpyfunc stx)
     (syntax-case stx ()
@@ -16,9 +23,7 @@
 
   (define (get-cpyfunc name type)
     (lambda args
-      (if libpython
-          (apply (get-ffi-obj name libpython type) args)
-          (error "Call init before using any Python C functions"))))
+          (apply (get-ffi-obj name (get-libpython) type) args)))
 
   (define pyobj%
     (class* object% (printable<%>)

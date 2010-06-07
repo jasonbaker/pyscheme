@@ -3,6 +3,10 @@
   (require scheme/foreign)
   (unsafe!)
 
+  (define (init [location *libpython-path*])
+    (set-libpython-path! location)
+    (Py_Initialize))
+
   (define symbol->pystring (compose PyString_FromString
                                     symbol->string))
   
